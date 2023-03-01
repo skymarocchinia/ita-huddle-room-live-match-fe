@@ -12,29 +12,53 @@ function randomCoordinatesArray() {
     return [coordinates.x, coordinates.y];
 }
 
-function addRandomAnimationsWithPrevCoord(tl, player, ball) {
+function addRandomAnimationsWithPrevCoord(tlPlayer, tlBall, tlPlayerCircle, player, ball, circlePlayer) {
     let prevCoord = {
         x: 0,
         y: 0,
     };
 
+    const svg = document.getElementById('my-svg');
+    const lines = [];
+
     const randomAnimations = new Array(20).fill().map(() => {
         const newCoord = generateRandomCoordinates(prevCoord);
         const duration = Math.floor(Math.random() * (2001 - 500) + 500);
-        prevCoord = newCoord;
-        return tl.add({
-            targets: [player, ball],
+        tlPlayer.add({
+            targets: player,
             translateX: newCoord.x,
             translateY: newCoord.y,
             duration: duration
         });
+        tlPlayerCircle.add({
+            targets: circlePlayer,
+            translateX: newCoord.x,
+            translateY: newCoord.y,
+            duration: duration,
+            update: (anim) => {
+                // Crea una nuova linea che collega il punto alla posizione precedente
+                const newLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                newLine.setAttribute('x1', prevCoord.x);
+                newLine.setAttribute('y1', prevCoord.y);
+                newLine.setAttribute('x2', anim.animations[0].currentValue);
+                newLine.setAttribute('y2', anim.animations[1].currentValue);
+                newLine.setAttribute('stroke', 'white');
+                svg.appendChild(newLine);
+                lines.push(newLine);
+            }
+        });
+        tlBall.add({
+            targets: ball,
+            translateX: newCoord.x,
+            translateY: newCoord.y,
+            duration: duration
+        });
+        prevCoord = newCoord;
     });
-
-    return randomAnimations;
 }
 
 function generateRandomCoordinates(prevCoord) {
-    const maxX = 500;
+    const maxX = 400;
     const maxY = 300;
 
     const xRange = Math.min(maxX, prevCoord.x + 101) - Math.max(0, prevCoord.x - 100);
