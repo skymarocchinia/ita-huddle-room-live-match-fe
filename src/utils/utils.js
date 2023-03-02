@@ -67,9 +67,21 @@ function generateRandomCoordinates(prevCoord) {
     const x = Math.floor(Math.random() * xRange) + Math.max(0, prevCoord.x - 100);
     const y = Math.floor(Math.random() * yRange) + Math.max(0, prevCoord.y - 100);
 
-    return { x, y };
+    return {
+        x: x,
+        y: y,
+        xTrail: x - 5,
+        yTrail: y - 5,
+    };
 }
 
+function convertAnimationInTrailNumber(animationNumber) {
+    const animationSPlit = animationNumber.split('px');
+    const animationNumberInTrail = parseFloat(animationSPlit[0]) - 5;
+    //console.log("animationNumberInTrail :: ", animationNumberInTrail);
+    //console.log("===========================");
+    return animationNumberInTrail.toString() + "px";
+}
 
-
-export { randomCoordinatesMax500, randomCoordinatesArray, addRandomAnimationsWithPrevCoord };
+export { randomCoordinatesMax500, randomCoordinatesArray, addRandomAnimationsWithPrevCoord, generateRandomCoordinates,
+    convertAnimationInTrailNumber };
