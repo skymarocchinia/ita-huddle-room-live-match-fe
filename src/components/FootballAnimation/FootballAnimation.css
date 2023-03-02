@@ -1,13 +1,5 @@
 .player {
     z-index: 10;
-    width: 11px;
-    height: 11px;
-    background-color: white;
-    border-radius: 50%;
-    position: absolute;
-}
-.player-circle {
-    z-index: 10;
     width: 30px;
     height: 30px;
     background-color: white;
@@ -20,4 +12,5 @@
     width: 11px;
     height: 11px;
     z-index: 12;
+    background-color: white;
 }

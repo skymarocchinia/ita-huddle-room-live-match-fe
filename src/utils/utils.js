@@ -12,49 +12,67 @@ function randomCoordinatesArray() {
     return [coordinates.x, coordinates.y];
 }
 
-function addRandomAnimationsWithPrevCoord(tlPlayer, tlBall, tlPlayerCircle, player, ball, circlePlayer) {
-    let prevCoord = {
-        x: 0,
-        y: 0,
-    };
+function delayer(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
+function generateUniqueId() {
+    return 'id-' + Math.random().toString(36).substr(2, 16);
+}
+
+
+function drawAndAnimationBall(ballRef, tlBall, ball, newCoord, duration ) {
     const svg = document.getElementById('my-svg');
-    const lines = [];
 
-    const randomAnimations = new Array(20).fill().map(() => {
-        const newCoord = generateRandomCoordinates(prevCoord);
-        const duration = Math.floor(Math.random() * (2001 - 500) + 500);
-        tlPlayer.add({
-            targets: player,
-            translateX: newCoord.x,
-            translateY: newCoord.y,
-            duration: duration
-        });
-        tlPlayerCircle.add({
-            targets: circlePlayer,
-            translateX: newCoord.x,
-            translateY: newCoord.y,
-            duration: duration,
-            update: (anim) => {
-                // Crea una nuova linea che collega il punto alla posizione precedente
-                const newLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                newLine.setAttribute('x1', prevCoord.x);
-                newLine.setAttribute('y1', prevCoord.y);
-                newLine.setAttribute('x2', anim.animations[0].currentValue);
-                newLine.setAttribute('y2', anim.animations[1].currentValue);
-                newLine.setAttribute('stroke', 'white');
-                svg.appendChild(newLine);
-                lines.push(newLine);
-            }
-        });
-        tlBall.add({
-            targets: ball,
-            translateX: newCoord.x,
-            translateY: newCoord.y,
-            duration: duration
-        });
-        prevCoord = newCoord;
+    tlBall.add({
+        targets: ball,
+        translateX: newCoord.x,
+        translateY: newCoord.y,
+        duration: duration,
+        update: (anim) => {
+            const uniqueId = generateUniqueId();
+            // Create a new circle to represent the trail
+            let trailCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            trailCircle.setAttribute('id', uniqueId);
+            //console.log("anim.animations[0].currentValue) :: ", anim.animations[0].currentValue);
+            trailCircle.setAttribute('cx', convertAnimationInTrailNumber(anim.animations[0].currentValue));
+            //console.log("anim.animations[1].currentValue) :: ", anim.animations[1].currentValue);
+            trailCircle.setAttribute('cy', convertAnimationInTrailNumber(anim.animations[1].currentValue));
+            trailCircle.setAttribute('r', '3');
+            trailCircle.setAttribute('fill', 'white');
+            trailCircle.setAttribute('fill-opacity', '0.5');
+            svg.appendChild(trailCircle);
+
+            // Fade out the trail circle over 1 second
+            anime({
+                targets: trailCircle,
+                duration: 2000,
+                easing: 'linear',
+                opacity: 0,
+                complete: function(anim) {
+                    svg.removeChild(trailCircle);
+                    /*const circles = svg.querySelectorAll('[id="' + uniqueId + '"]');
+                    circles.forEach((circle) => {
+                        circle.remove();
+                    });*/
+                }
+            });
+        },
+        complete: function(anim) {
+
+        }
     });
+
+
+
+    const prevCoord = newCoord;
+    return prevCoord;
+}
+
+function addRandomAnimationsWithPrevCoord(ballRef, tlBall, ball, prevCoord) {
+    const newCoord = generateRandomCoordinates(prevCoord);
+    const duration = Math.floor(Math.random() * (2001 - 500) + 500);
+    return drawAndAnimationBall(ballRef, tlBall, ball, newCoord, duration);
 }
 
 function generateRandomCoordinates(prevCoord) {
@@ -69,9 +87,7 @@ function generateRandomCoordinates(prevCoord) {
 
     return {
         x: x,
-        y: y,
-        xTrail: x - 5,
-        yTrail: y - 5,
+        y: y
     };
 }
 
@@ -84,4 +100,4 @@ function convertAnimationInTrailNumber(animationNumber) {
 }
 
 export { randomCoordinatesMax500, randomCoordinatesArray, addRandomAnimationsWithPrevCoord, generateRandomCoordinates,
-    convertAnimationInTrailNumber };
+    convertAnimationInTrailNumber, delayer };
