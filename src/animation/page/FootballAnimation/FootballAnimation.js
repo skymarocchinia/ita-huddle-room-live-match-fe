@@ -5,7 +5,7 @@ import events from '../../assets/fakeEvents.json'
 
 import './FootballAnimation.css';
 import {
-    createBallMovementTimeline
+    createBallMovementTimeline, generatePassEvents
 } from "../../utils/utils";
 import Ball from "../../components/ball/ball";
 
@@ -17,7 +17,8 @@ function FootballAnimation() {
 
     useEffect( () => {
         async function makeBallMovement() {
-            await createBallMovementTimeline(events);
+            let _fevents = generatePassEvents(Math.floor(Math.random() * 6) + 2);
+            await createBallMovementTimeline(_fevents);
         }
 
         window.addEventListener('click', makeBallMovement);

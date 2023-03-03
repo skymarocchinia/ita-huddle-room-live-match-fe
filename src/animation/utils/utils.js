@@ -113,6 +113,48 @@ function startMatch(ball) {
     return prevCoord;
 }
 
+
+function generatePassEvents(numEvents) {
+    const events = [];
+    let x = 200;
+    let y = 200;
+    for (let i = 0; i < numEvents; i++) {
+        const event = {
+            "type": "pass",
+            "timestamp_utc": new Date().toISOString(),
+            "playerName": `player_${i}`,
+            "jerseyNum": `${i + 1}`,
+            "teamId": "123456",
+            "x": `${x}`,
+            "y": `${y}`,
+            "outcome": Math.random() < 0.5 ? true : false,
+            "payload": {
+                "pass": {
+                    "passType": "head",
+                    "x": Math.floor(Math.random() * 650),
+                    "y": Math.floor(Math.random() * 350)
+                }
+            }
+        };
+        if (Math.random() < 0.5) {
+            event["payload"]["goal"] = {
+                "GKX": `${Math.floor(Math.random() * 650)}`,
+                "GKY": `${Math.floor(Math.random() * 350)}`,
+                "ShootY": `${Math.floor(Math.random() * 101)}`,
+                "ShootZ": `${Math.floor(Math.random() * 101)}`,
+                "playerImage": "",
+                "goalText": ""
+            };
+        }
+        events.push(event);
+        x = parseInt(event.payload.pass.x);
+        y = parseInt(event.payload.pass.y);
+    }
+    return events;
+}
+
+
+
 export { randomCoordinatesMax500, randomCoordinatesArray, generateRandomCoordinates,
     convertAnimationInTrailNumber, delayer, generateUniqueId, createBallMovementTimeline,
-    startMatch };
+    startMatch, generatePassEvents };
