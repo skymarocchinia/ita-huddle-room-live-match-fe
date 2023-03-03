@@ -29,16 +29,16 @@ async function createBallMovementTimeline(events, autoplay, ballRef, ball, prevC
     timeline
         .set(ball, {
             // opzioni di set() per posizione iniziale
-            translateX: prevCoord.x,
-            translateY: prevCoord.y,
+            translateX: events[0].x,
+            translateY: events[0].y,
         })
 
     for (const event of events) {
-        const newCoord = generateRandomCoordinates(prevCoord);
+        const prevCoord = {x: event.x, y: event.y};
+        const newCoord = {x: event.payload.pass.x, y: event.payload.pass.y};
         const animation = createAndDrawAndAnimationBall(ballRef, ball, prevCoord, newCoord);
         timeline.add(animation);
         await animation.finished;
-        prevCoord = newCoord;
     }
     
     return prevCoord;

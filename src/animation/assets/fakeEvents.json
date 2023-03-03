@@ -5,16 +5,16 @@
     "playerName": "pippo",
     "jerseyNum": "11",
     "teamId": "123456",
-    "x": "120",
-    "y": "200",
+    "x": "80",
+    "y": "90",
     "min": "12",
     "sec": "12",
     "outcome": true,
     "payload":{
       "pass":{
         "passType" : "head",
-        "x":"12",
-        "y":"12"
+        "x": "120",
+        "y": "200"
       }
     }
   },
@@ -24,14 +24,14 @@
     "playerName": "pippo",
     "jerseyNum": "20",
     "teamId": "123456",
-    "x": "200",
-    "y": "450",
+    "x": "120",
+    "y": "200",
     "outcome": true,
     "payload":{
       "pass":{
         "passType" : "head",
-        "x":"12",
-        "y":"12"
+        "x": "200",
+        "y": "300"
       }
     }
   },
@@ -41,14 +41,14 @@
     "playerName": "pippo",
     "jerseyNum": "9",
     "teamId": "123456",
-    "x": "300",
-    "y": "550",
+    "x": "200",
+    "y": "300",
     "outcome": true,
     "payload":{
       "pass":{
         "passType" : "head",
-        "x":"12",
-        "y":"12"
+        "x": "450",
+        "y": "400"
       },
       "goal": {
         "GKX" : "690",
