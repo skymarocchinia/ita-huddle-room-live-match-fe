@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import FootballAnimation from "./components/FootballAnimation/FootballAnimation";
+import FootballAnimation from "./animation/page/FootballAnimation/FootballAnimation";
 
 function App() {
   return (

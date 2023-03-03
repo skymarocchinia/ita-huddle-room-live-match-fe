@@ -1,0 +1,63 @@
+[
+  {
+    "type": "pass",
+    "timestamp_utc": "YYY-MM-DDTHH:MM:SSZ",
+    "playerName": "pippo",
+    "jerseyNum": "11",
+    "teamId": "123456",
+    "x": "120",
+    "y": "200",
+    "min": "12",
+    "sec": "12",
+    "outcome": true,
+    "payload":{
+      "pass":{
+        "passType" : "head",
+        "x":"12",
+        "y":"12"
+      }
+    }
+  },
+  {
+    "type": "pass",
+    "timestamp_utc": "YYY-MM-DDTHH:MM:SSZ",
+    "playerName": "pippo",
+    "jerseyNum": "20",
+    "teamId": "123456",
+    "x": "200",
+    "y": "450",
+    "outcome": true,
+    "payload":{
+      "pass":{
+        "passType" : "head",
+        "x":"12",
+        "y":"12"
+      }
+    }
+  },
+  {
+    "type": "pass",
+    "timestamp_utc": "YYY-MM-DDTHH:MM:SSZ",
+    "playerName": "pippo",
+    "jerseyNum": "9",
+    "teamId": "123456",
+    "x": "300",
+    "y": "550",
+    "outcome": true,
+    "payload":{
+      "pass":{
+        "passType" : "head",
+        "x":"12",
+        "y":"12"
+      },
+      "goal": {
+        "GKX" : "690",
+        "GKY" : "450",
+        "ShootY" : "12",
+        "ShootZ" : "12",
+        "playerImage": "",
+        "goalText": ""
+      }
+    }
+  }
+]
