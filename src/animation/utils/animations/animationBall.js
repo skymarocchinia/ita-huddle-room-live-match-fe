@@ -8,9 +8,23 @@ function fadeOutTrailCircle(trailCircle) {
     anime({
         targets: trailCircle,
         easing: 'linear',
+        duration: 900,
         opacity: 0,
         complete: function(anim) {
             svg.removeChild(trailCircle);
+        }
+    });
+}
+
+function fadeOutTrailPoint(trailPoint) {
+    const svg = document.getElementById('soccer-svg');
+    anime({
+        targets: trailPoint,
+        duration: 900,
+        easing: 'linear',
+        opacity: 0,
+        complete: function(anim) {
+            svg.removeChild(trailPoint);
         }
     });
 }
@@ -74,6 +88,8 @@ function createTrailPoint(anim, coord) {
     pointCircle.setAttribute('style', 'z-index: 9999; position: absolute;');
     svg.appendChild(pointCircle);
 
+    return pointCircle;
+
     // Animate the start circle's opacity to fade out
     /*anime({
         targets: pointCircle,
@@ -86,6 +102,7 @@ function createTrailPoint(anim, coord) {
 
 
 function createAndDrawAndAnimationBall(ballRef, ball, prevCoord, newCoord, duration = 1000 ) {
+    let trail;
     return{
         targets: ball,
         easing: 'linear',
@@ -93,17 +110,20 @@ function createAndDrawAndAnimationBall(ballRef, ball, prevCoord, newCoord, durat
         translateY: newCoord.y,
         duration: duration,
         begin: (anim) => {
-            createTrailPoint(anim, prevCoord)
+            const pointStart = createTrailPoint(anim, prevCoord);
+            fadeOutTrailPoint(pointStart);
         },
         update: (anim) => {
             const svg = document.getElementById('soccer-svg');
             const uniqueId = generateUniqueId();
             // Create a new circle to represent the trail
-            let trail = createTrailCircle(uniqueId, anim);
-            //let trail = createTrailLine(uniqueId, newCoord, anim);
+            trail = createTrailCircle(uniqueId, anim);
+            fadeOutTrailCircle(trail);
+            //trail = createTrailLine(uniqueId, newCoord, anim);
         },
         complete: (anim) => {
-            createTrailPoint(anim, newCoord)
+            const pointEnd = createTrailPoint(anim, newCoord);
+            fadeOutTrailPoint(pointEnd);
         }
     };
 }

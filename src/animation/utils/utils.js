@@ -40,6 +40,8 @@ async function createBallMovementTimeline(events, autoplay, ballRef, ball, prevC
         await animation.finished;
         prevCoord = newCoord;
     }
+    
+    return prevCoord;
 
 }
 

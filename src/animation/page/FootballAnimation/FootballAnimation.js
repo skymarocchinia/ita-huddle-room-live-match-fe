@@ -23,10 +23,10 @@ function FootballAnimation() {
         const player = playerRef.current;
         const ball = ballRef.current;
 
-        const prevCoord = startMatch(ball);
+        let prevCoord = startMatch(ball);
 
         async function makeBallMovement() {
-            await createBallMovementTimeline(events, true, ballRef, ball, prevCoord);
+            prevCoord = await createBallMovementTimeline(events, true, ballRef, ball, prevCoord);
         }
 
         window.addEventListener('click', makeBallMovement);
