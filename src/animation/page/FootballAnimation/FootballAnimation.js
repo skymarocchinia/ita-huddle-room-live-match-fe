@@ -20,13 +20,8 @@ function FootballAnimation() {
 
 
     useEffect( () => {
-        const player = playerRef.current;
-        const ball = ballRef.current;
-
-        let prevCoord = startMatch(ball);
-
         async function makeBallMovement() {
-            prevCoord = await createBallMovementTimeline(events, true, ballRef, ball, prevCoord);
+            await createBallMovementTimeline(events);
         }
 
         window.addEventListener('click', makeBallMovement);

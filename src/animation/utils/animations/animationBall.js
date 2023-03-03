@@ -101,10 +101,10 @@ function createTrailPoint(anim, coord) {
 }
 
 
-function createAndDrawAndAnimationBall(ballRef, ball, prevCoord, newCoord, duration = 1000 ) {
+function createAndDrawAndAnimationBall(prevCoord, newCoord, duration = 1000 ) {
     let trail;
     return{
-        targets: ball,
+        targets: '.ballref',
         easing: 'linear',
         translateX: newCoord.x,
         translateY: newCoord.y,

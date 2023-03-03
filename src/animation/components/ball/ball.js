@@ -6,7 +6,7 @@ const Ball = React.forwardRef((props, ref) => {
     const ballSoccerRef = useRef(null);
 
     return (
-        <div ref={ref} id={"ball"}>
+        <div ref={ref} id={"ball"} className={'ballref'}>
             <div
                 ref={ballSoccerRef}
                 className="football-ball"

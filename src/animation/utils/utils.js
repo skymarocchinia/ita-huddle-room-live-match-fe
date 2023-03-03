@@ -21,27 +21,25 @@ function generateUniqueId() {
     return 'id-' + Math.random().toString(36).substr(2, 16);
 }
 
-async function createBallMovementTimeline(events, autoplay, ballRef, ball, prevCoord) {
+async function createBallMovementTimeline(events) {
     const timeline = anime.timeline({
-        autoplay: autoplay, // imposto autoplay a false per eseguire manualmente la timeline
+        autoplay: true, // imposto autoplay a false per eseguire manualmente la timeline
     });
 
-    timeline
+/*    timeline
         .set(ball, {
             // opzioni di set() per posizione iniziale
             translateX: events[0].x,
             translateY: events[0].y,
-        })
+        })*/
 
     for (const event of events) {
         const prevCoord = {x: event.x, y: event.y};
         const newCoord = {x: event.payload.pass.x, y: event.payload.pass.y};
-        const animation = createAndDrawAndAnimationBall(ballRef, ball, prevCoord, newCoord);
+        const animation = createAndDrawAndAnimationBall(prevCoord, newCoord);
         timeline.add(animation);
         await animation.finished;
     }
-    
-    return prevCoord;
 
 }
 
