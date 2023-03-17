@@ -1,5 +1,6 @@
 import anime from "animejs";
-import {convertAnimationInTrailNumber, generateUniqueId} from "../utils";
+import {convertAnimationInTrailNumber, generateUniqueId, getRealCoordinates} from "../utils";
+import {field_height, field_width} from "../../../config/config";
 
 
 
@@ -102,15 +103,21 @@ function createTrailPoint(anim, coord) {
 
 
 function createAndDrawAndAnimationBall(prevCoord, newCoord, duration = 1000 ) {
+
+    const realPrevCoordinates = getRealCoordinates(field_width, field_height, newCoord.x, newCoord.y);
+    console.log("realPrevCoordinates :: ",realPrevCoordinates); // { x: 50, y: 12.5 }
+    const realNewCoordinates = getRealCoordinates(field_width, field_height, prevCoord.x, prevCoord.y);
+    console.log("realNewCoordinates :: ",realNewCoordinates); // { x: 50, y: 12.5 }
+
     let trail;
     return{
         targets: '.ballref',
         easing: 'linear',
-        translateX: newCoord.x,
-        translateY: newCoord.y,
+        translateX: realNewCoordinates.x,
+        translateY: realNewCoordinates.y,
         duration: duration,
         begin: (anim) => {
-            const pointStart = createTrailPoint(anim, prevCoord);
+            const pointStart = createTrailPoint(anim, realPrevCoordinates);
             fadeOutTrailPoint(pointStart);
         },
         update: (anim) => {

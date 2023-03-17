@@ -5,7 +5,7 @@ function Field(props) {
     return (
         <div
             className="field-container"
-            style={{ background: `url(/soccer-field.svg) no-repeat center center / cover`, position: 'relative' }}
+            style={{ background: `url(/soccer-field-v.png) no-repeat center center / cover`, position: 'relative' }}
         >
             {props.children}
         </div>

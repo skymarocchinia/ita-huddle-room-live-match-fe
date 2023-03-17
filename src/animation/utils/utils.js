@@ -1,5 +1,6 @@
 import anime from "animejs";
 import {createAndDrawAndAnimationBall} from "./animations/animationBall";
+import {field_height, field_width} from "../../config/config";
 
 function randomCoordinatesMax500() {
     return {
@@ -26,12 +27,14 @@ async function createBallMovementTimeline(events) {
         autoplay: true, // imposto autoplay a false per eseguire manualmente la timeline
     });
 
-/*    timeline
-        .set(ball, {
+    const startRealCoordinates = getRealCoordinates(field_width, field_height, events[0].x, events[0].y);
+
+    timeline
+        .set('.ballref', {
             // opzioni di set() per posizione iniziale
-            translateX: events[0].x,
-            translateY: events[0].y,
-        })*/
+            translateX: startRealCoordinates.x,
+            translateY: startRealCoordinates.y,
+        })
 
     for (const event of events) {
         const prevCoord = {x: event.x, y: event.y};
@@ -113,6 +116,33 @@ function startMatch(ball) {
     return prevCoord;
 }
 
+function convertPercentCoordinates(x_percent, y_percent) {
+    // Scambia i valori delle percentuali x e y
+    const new_x_percent = y_percent;
+    const new_y_percent = x_percent;
+
+    // Restituisce le nuove coordinate percentuali come un oggetto
+    return {
+        x: new_x_percent,
+        y: new_y_percent
+    };
+}
+
+function getRealCoordinates(field_width, field_height, x_percent, y_percent) {
+    const percentCoordinates_vertical = convertPercentCoordinates(x_percent, y_percent);
+    // Calcola le coordinate reali
+    const x_real = (field_width * percentCoordinates_vertical.x) / 100;
+    const y_real = (field_height * percentCoordinates_vertical.y) / 100;
+
+    // Restituisce le coordinate reali come un oggetto
+    return {
+        x: x_real,
+        y: y_real
+    };
+}
+
+
+
 export { randomCoordinatesMax500, randomCoordinatesArray, generateRandomCoordinates,
     convertAnimationInTrailNumber, delayer, generateUniqueId, createBallMovementTimeline,
-    startMatch };
+    startMatch, getRealCoordinates, convertPercentCoordinates };
