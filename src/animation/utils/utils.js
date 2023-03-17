@@ -1,6 +1,7 @@
 import anime from "animejs";
 import {createAndDrawAndAnimationBall} from "./animations/animationBall";
 import {field_height, field_width} from "../../config/config";
+import {mainAnimationEgine} from "./animationEngine";
 
 function randomCoordinatesMax500() {
     return {
@@ -37,9 +38,7 @@ async function createBallMovementTimeline(events) {
         })
 
     for (const event of events) {
-        const prevCoord = {x: event.x, y: event.y};
-        const newCoord = {x: event.payload.pass.x, y: event.payload.pass.y};
-        const animation = createAndDrawAndAnimationBall(prevCoord, newCoord);
+        const animation = mainAnimationEgine(event);
         timeline.add(animation);
         await animation.finished;
     }
