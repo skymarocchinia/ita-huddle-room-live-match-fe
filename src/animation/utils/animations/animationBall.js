@@ -129,7 +129,7 @@ function createAndDrawAndAnimationBall(prevCoord, newCoord, duration = 1000 ) {
             //trail = createTrailLine(uniqueId, newCoord, anim);
         },
         complete: (anim) => {
-            const pointEnd = createTrailPoint(anim, newCoord);
+            const pointEnd = createTrailPoint(anim, realNewCoordinates);
             fadeOutTrailPoint(pointEnd);
         }
     };
