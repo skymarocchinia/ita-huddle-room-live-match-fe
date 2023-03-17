@@ -14,7 +14,7 @@ function randomCoordinatesArray() {
     return [coordinates.x, coordinates.y];
 }
 
-function delay(ms) {
+function delayer(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
