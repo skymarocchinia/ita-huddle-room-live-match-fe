@@ -77,8 +77,8 @@ function convertAnimationInTrailNumber(animationNumber, offset) {
 }
 
 function startMatch(ball) {
-    const containerWidth = 700;
-    const containerHeight = 450;
+    const containerWidth = field_width;
+    const containerHeight = field_height;
     const ballWidth = 11;
     const ballHeight = 11;
 
