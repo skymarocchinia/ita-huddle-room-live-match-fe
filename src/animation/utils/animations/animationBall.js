@@ -104,20 +104,15 @@ function createTrailPoint(anim, coord) {
 
 function createAndDrawAndAnimationBall(prevCoord, newCoord, duration = 1000 ) {
 
-    const realPrevCoordinates = getRealCoordinates(field_width, field_height, newCoord.x, newCoord.y);
-    console.log("realPrevCoordinates :: ",realPrevCoordinates); // { x: 50, y: 12.5 }
-    const realNewCoordinates = getRealCoordinates(field_width, field_height, prevCoord.x, prevCoord.y);
-    console.log("realNewCoordinates :: ",realNewCoordinates); // { x: 50, y: 12.5 }
-
     let trail;
     return{
         targets: '.ballref',
         easing: 'linear',
-        translateX: realNewCoordinates.x,
-        translateY: realNewCoordinates.y,
+        translateX: newCoord.x,
+        translateY: newCoord.y,
         duration: duration,
         begin: (anim) => {
-            const pointStart = createTrailPoint(anim, realPrevCoordinates);
+            const pointStart = createTrailPoint(anim, prevCoord);
             fadeOutTrailPoint(pointStart);
         },
         update: (anim) => {
@@ -129,7 +124,7 @@ function createAndDrawAndAnimationBall(prevCoord, newCoord, duration = 1000 ) {
             //trail = createTrailLine(uniqueId, newCoord, anim);
         },
         complete: (anim) => {
-            const pointEnd = createTrailPoint(anim, realNewCoordinates);
+            const pointEnd = createTrailPoint(anim, newCoord);
             fadeOutTrailPoint(pointEnd);
         }
     };
