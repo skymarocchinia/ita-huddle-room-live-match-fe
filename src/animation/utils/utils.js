@@ -1,7 +1,12 @@
 import anime from "animejs";
-import {createAndDrawAndAnimationBall} from "./animations/animationBall";
+import {createAndDrawAndAnimationPassage} from "./animations/animationsPassage";
 import {field_height, field_width} from "../../config/config";
 import {mainAnimationEgine} from "./animationEngine";
+
+
+export const timeline = anime.timeline({
+    autoplay: true, // imposto autoplay a false per eseguire manualmente la timeline
+});
 
 function randomCoordinatesMax500() {
     return {
@@ -23,25 +28,28 @@ function generateUniqueId() {
     return 'id-' + Math.random().toString(36).substr(2, 16);
 }
 
-async function createBallMovementTimeline(events) {
-    const timeline = anime.timeline({
-        autoplay: true, // imposto autoplay a false per eseguire manualmente la timeline
-    });
+async function createAnimationTimeline(timeline,event) {
 
-    const startRealCoordinates = getRealCoordinates(field_width, field_height, events[0].x, events[0].y);
+    const startRealCoordinates = getRealCoordinates(field_width, field_height, event.x, event.y);
 
+    // opzioni di set() per posizione iniziale
     timeline
         .set('.ballref', {
-            // opzioni di set() per posizione iniziale
             translateX: startRealCoordinates.x,
             translateY: startRealCoordinates.y,
         })
 
-    for (const event of events) {
-        const animation = mainAnimationEgine(event);
+
+    const animation = mainAnimationEgine(event);
+    if (event.type === 'pass') {
         timeline.add(animation);
-        await animation.finished;
+    } else {
+        timeline.add(animation);
     }
+  /*  timeline.finished.then(() => {
+        timeline.reset();
+    })*/
+    await animation.finished;
 
 }
 
@@ -143,5 +151,5 @@ function getRealCoordinates(field_width, field_height, x_percent, y_percent) {
 
 
 export { randomCoordinatesMax500, randomCoordinatesArray, generateRandomCoordinates,
-    convertAnimationInTrailNumber, delayer, generateUniqueId, createBallMovementTimeline,
+    convertAnimationInTrailNumber, delayer, generateUniqueId, createAnimationTimeline,
     startMatch, getRealCoordinates, convertPercentCoordinates };

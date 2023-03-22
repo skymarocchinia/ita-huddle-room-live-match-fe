@@ -21,7 +21,7 @@
   {
     "type": "pass",
     "timestamp_utc": "YYY-MM-DDTHH:MM:SSZ",
-    "playerName": "pippo",
+    "playerName": "gaudet",
     "jerseyNum": "20",
     "teamId": "123456",
     "x": "35",
@@ -38,7 +38,7 @@
   {
     "type": "pass",
     "timestamp_utc": "YYY-MM-DDTHH:MM:SSZ",
-    "playerName": "pippo",
+    "playerName": "rocky",
     "jerseyNum": "9",
     "teamId": "123456",
     "x": "80",

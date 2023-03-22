@@ -1,7 +1,7 @@
 import React from 'react';
-import './Field.css';
+import './Stadium.css';
 
-function Field(props) {
+function Stadium(props) {
     return (
         <div
             className="field-container"
@@ -12,4 +12,4 @@ function Field(props) {
     );
 }
 
-export default Field;
+export default Stadium;
