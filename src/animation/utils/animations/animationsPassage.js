@@ -3,6 +3,9 @@ import {convertAnimationInTrailNumber, generateUniqueId, getRealCoordinates, tim
 import {field_height, field_width} from "../../../config/config";
 import ReactDOM from "react-dom";
 import React from "react";
+import store from "../../store/store";
+import {selectMatchData} from "../../store/matchSlice";
+
 
 
 function pulseElement(element) {
@@ -26,6 +29,24 @@ function fadeOutTrailCircle(trailCircle) {
         complete: function(anim) {
             svg.removeChild(trailCircle);
         }
+    });
+}
+
+function fadeInBall() {
+    anime({
+        targets: '.ballref',
+        easing: 'linear',
+        duration: 200,
+        opacity: 1
+    });
+}
+
+function fadeOutBall() {
+    anime({
+        targets: '.ballref',
+        easing: 'linear',
+        duration: 900,
+        opacity: 0
     });
 }
 
@@ -127,35 +148,47 @@ function createTrailPoint(anim, coord) {
     });*/
 }
 
+function getColorJersey(event) {
+    const matchData = selectMatchData(store.getState());
+    const color = Object.values(matchData?.getMatchInfo).find(
+        (team) => team.teamId === event.teamId
+    )?.color;
+    return color;
+}
+
 function createPlayer(anim, event, coord) {
     const svgParent = document.getElementById('soccer-svg');
 
-    const colorJersey = event?.color ?? '#' + Math.floor(Math.random() * 16777215).toString(16);
-    const numberJersey = event?.jerseyNum ?? '10';
-    const nameJersey = event?.playerName ?? 'CALHANOGLU';
-    const svgDimensionJersey = '25';
+    const colorJersey = getColorJersey(event);
+    const numberJersey = event?.jerseyNum;
+    const nameJersey = event?.playerName;
+    const svgDimensionJersey = '22';
 
     const svgDimensions = svgDimensionJersey;
-    const svgDimensionsY = (parseInt(svgDimensions) + 10).toString();;
+    const svgDimensionsLargeX = (parseInt(svgDimensions) + 30).toString();
+    const svgDimensionsY = (parseInt(svgDimensions) + 10).toString();
     const circleDimensions = (parseInt(svgDimensions)/2).toString();
     const circleRadius = (parseInt(circleDimensions) - 2).toString();
-    const textY = (parseInt(circleDimensions) + 4).toString();
-    const textNameY = (parseInt(circleDimensions) + 14).toString();
+    const textY = (parseInt(svgDimensions) -8 ).toString();
+    const textNameY = (parseInt(circleDimensions) + 16).toString();
+
 
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('width', svgDimensions);
+    svg.setAttribute('width', svgDimensionsLargeX);
     svg.setAttribute('height', svgDimensionsY);
     svg.setAttribute('x', coord.x);
     svg.setAttribute('y', coord.y);
 
+    const centerX = parseInt(svg.getAttribute("width")) / 2;
+
     const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    circle.setAttribute('cx', circleDimensions);
+    circle.setAttribute('cx', centerX);
     circle.setAttribute('cy', circleDimensions);
     circle.setAttribute('r', circleRadius);
-    circle.setAttribute('fill', colorJersey);
+    circle.setAttribute('fill', "#"+colorJersey);
 
     const textNumber = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    textNumber.setAttribute('x', circleDimensions);
+    textNumber.setAttribute('x', centerX);
     textNumber.setAttribute('y', textY);
     textNumber.setAttribute('text-anchor', 'middle');
     textNumber.setAttribute('font-size', '10');
@@ -164,12 +197,15 @@ function createPlayer(anim, event, coord) {
     textNumber.textContent = numberJersey;
 
     const textName = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    textName.setAttribute('x', circleDimensions);
-    textName.setAttribute('y', textNameY);
-    textName.setAttribute('text-anchor', 'middle');
-    textName.setAttribute('font-size', '8');
-    textName.setAttribute('font-weight', 'bold');
-    textName.setAttribute('fill', 'white');
+    textName.setAttribute("x", centerX);
+    textName.setAttribute(
+        "y",
+        textNameY
+    );
+    textName.setAttribute("text-anchor", "middle");
+    textName.setAttribute("font-size", "8");
+    textName.setAttribute("font-weight", "bold");
+    textName.setAttribute("fill", "white");
     textName.textContent = nameJersey;
 
     svg.appendChild(circle);
@@ -214,4 +250,4 @@ function createAndDrawAndAnimationPassage(prevCoord, newCoord, event, duration =
     };
 }
 
-export { createAndDrawAndAnimationPassage, createTrailCircle };
+export { createAndDrawAndAnimationPassage, createTrailCircle,fadeOutBall, fadeInBall };

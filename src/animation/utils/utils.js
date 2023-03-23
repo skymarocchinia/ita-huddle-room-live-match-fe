@@ -1,5 +1,5 @@
 import anime from "animejs";
-import {createAndDrawAndAnimationPassage} from "./animations/animationsPassage";
+import {createAndDrawAndAnimationPassage, fadeOutBall} from "./animations/animationsPassage";
 import {field_height, field_width} from "../../config/config";
 import {mainAnimationEgine} from "./animationEngine";
 
@@ -50,7 +50,6 @@ async function createAnimationTimeline(timeline,event) {
         timeline.reset();
     })*/
     await animation.finished;
-
 }
 
 /*function addRandomAnimationsWithPrevCoord(ballRef, ball, prevCoord) {
